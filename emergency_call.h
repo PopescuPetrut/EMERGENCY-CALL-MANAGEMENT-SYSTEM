@@ -2,38 +2,38 @@
 #include <string.h>
 #include <stdlib.h>
 
-typedef struct unit {
+typedef struct {
 	int ID;
 	char type;
 	int availability;
-};
+} unit;
 
-typedef struct incident {
+typedef struct {
 	int ID;
 	char priority[7];
 	char *description;
 	char status[11];
-};
+} incident;
 
-typedef struct intervention {
+typedef struct {
 	unit *unit;
 	incident *incident;
-};
+} intervention;
 
-typedef struct system {
+typedef struct {
 	unit *units;
 	incident *incidents;
 	intervention *interventions;
-};
+} call_system;
 
-typedef struct node {
+typedef struct {
 	void *data;
-	node *next, *prev;
-};
+	struct node *next, *prev;
+} node;
 
-typedef struct list {
+typedef struct {
 	int size;
 	int data_type;
 	node *head;
 	node *tail;
-};
+} list;

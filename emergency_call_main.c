@@ -9,7 +9,7 @@ int main(void)
 	getc(in);
 	unit *units = (unit *)malloc(nr_units * sizeof(unit));
 	if (!units) {
-		fprintf(stderr, "Allocation error");
+		fprintf(stderr, "Allocation error for units");
 		return 0;
 	}
 
@@ -21,8 +21,20 @@ int main(void)
 		units[i].availability = 1;
 	}
 
-	for (int i = 0; i < nr_units; i++) {
-		printf("%d %c\n", units[i].ID, units[i].type);
-	}
-	
+	int commands = 0;
+	fscanf(in, "%d", &commands);
+	getc(in);
+	for (int i = 0; i < commands; i++) {
+		char *command = (char *)malloc(sizeof(char) * 200);
+		if (!command) {
+			free(units);
+			fprintf(stderr, "Allocation error for command");
+			return 0;
+		}
+
+		fgets(command, 100, in);
+		command[strlen(command) - 1] ='\0';
+		// command_processing(command, units);
+		free(command);
+	}	
 }
