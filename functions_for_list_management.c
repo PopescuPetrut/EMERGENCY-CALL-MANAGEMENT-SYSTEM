@@ -33,6 +33,9 @@ void add_nth_node(list *lista, int pos, void *data)
 	} else if (lista->type == INTERVENTION) {
 		new_node->data = (intervention *)malloc(sizeof(intervention));
 		memcpy(new_node->data, data, sizeof(intervention));
+	} else if (lista->type == UNITS) {
+		new_node->data = (unit *)malloc(sizeof(unit));
+		memcpy(new_node->data, data, sizeof(unit));
 	}
 
 	node *it = lista->head;
