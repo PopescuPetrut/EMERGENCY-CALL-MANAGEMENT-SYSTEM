@@ -2,23 +2,28 @@
 
 int main(void)
 {
+	call_system *system = malloc(sizeof(call_system));
+	if (!system) {
+		fprintf(stderr, "System memory allocation faield");
+		return -1;
+	}
+	system->queue_high = create_list(INCIDENT);
+	system->queue_medium = create_list(INCIDENT);
+	system->queue_low = create_list(INCIDENT);
+	system->queue_units = create_list(UNITS);
 	int nr_units;
 	FILE *in = fopen("tema1.in", "rt");
 
 	fscanf(in, "%d", &nr_units);
 	getc(in);
-	unit *units = (unit *)malloc(nr_units * sizeof(unit));
-	if (!units) {
-		fprintf(stderr, "Allocation error for units");
-		return 0;
-	}
-
 	for (int i = 0; i < nr_units; i++) {
-		fscanf(in, "%d", &units[i].ID);
+		unit aux;
+		fscanf(in, "%d", &aux.ID);
 		getc(in);
-		fscanf(in, "%c", &units[i].type);
+		fscanf(in, "%c", &aux.type);
 		getc(in);
-		units[i].availability = 1;
+		aux.availability = 1;
+		enqueue(system->queue_units, &aux);
 	}
 
 	int commands = 0;
@@ -27,7 +32,7 @@ int main(void)
 	for (int i = 0; i < commands; i++) {
 		char *command = (char *)malloc(sizeof(char) * 200);
 		if (!command) {
-			free(units);
+			// free(system);
 			fprintf(stderr, "Allocation error for command");
 			return 0;
 		}
