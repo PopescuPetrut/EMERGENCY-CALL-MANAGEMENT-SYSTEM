@@ -2,6 +2,24 @@
 #include <string.h>
 #include <stdlib.h>
 
+typedef struct node{
+	void *data;
+	struct node *next, *prev;
+} node;
+
+typedef enum DATA_TYPE{
+	INCIDENT,
+	INTERVENTION,
+	UNITS
+} DATA_TYPE;
+
+typedef struct list{
+	int size;
+	DATA_TYPE type;
+	node *head;
+	node *tail;
+} list;
+
 typedef struct unit{
 	int ID;
 	char type;
@@ -24,24 +42,11 @@ typedef struct call_system{
 	unit *units;
 	incident *incidents;
 	intervention *interventions;
+	list *queue_high;
+	list *queue_medium;
+	list *queue_low;
+	list *queue_units;
 } call_system;
-
-typedef struct node{
-	void *data;
-	struct node *next, *prev;
-} node;
-
-typedef enum DATA_TYPE{
-	INCIDENT,
-	INTERVENTION
-} DATA_TYPE;
-
-typedef struct list{
-	int size;
-	DATA_TYPE type;
-	node *head;
-	node *tail;
-} list;
 
 void command_processing(char *command, unit *units);
 list *create_list(DATA_TYPE a);
