@@ -48,3 +48,7 @@ list *create_list(DATA_TYPE a);
 void add_nth_node(list *lista, int pos, void *data);
 void remove_nth_node(list *lista, int pos);
 node *get_nth_element(list *lista, int pos);
+void enqueue(list *queue, void *data);
+void dequeue(list *queue);
+node *front(list *queue);
+int queue_isempty(list *queue);
