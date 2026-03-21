@@ -36,6 +36,8 @@ void add_nth_node(list *lista, int pos, void *data)
 	} else if (lista->type == UNITS) {
 		new_node->data = (unit *)malloc(sizeof(unit));
 		memcpy(new_node->data, data, sizeof(unit));
+	} else if (lista->type == POINTERS) {
+		new_node->data = data;
 	}
 
 	node *it = lista->head;
@@ -102,7 +104,9 @@ void remove_nth_node(list *lista, int pos)
 		remove->next->prev = remove->prev;
 	}
 
-	free(remove->data);
+	if (lista->type != POINTERS) {
+		free(remove->data);
+	}
 	free(remove);
 	lista->size--;
 }
