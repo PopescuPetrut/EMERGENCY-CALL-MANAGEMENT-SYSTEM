@@ -13,7 +13,8 @@ int main(void)
 	system->queue_high = create_list(POINTERS);
 	system->queue_medium = create_list(POINTERS);
 	system->queue_low = create_list(POINTERS);
-	system->queue_units = create_list(POINTERS);
+	system->queue_available_units = create_list(POINTERS);
+	system->queue_unavailable_units = create_list(POINTERS);
 	int nr_units;
 	FILE *in = fopen("tema1.in", "rt");
 
@@ -29,14 +30,14 @@ int main(void)
 		add_nth_node(system->units, i, &aux);
 		node *new_node = get_nth_element(system->units, i);
 		void *location = new_node->data;
-		enqueue(system->queue_units, location);
+		enqueue(system->queue_available_units, location);
 	}
 
-	while(queue_isempty(system->queue_units)) {
-		node *it = front(system->queue_units);
-		printf("%d ", ((unit *)(it->data))->ID);
-		dequeue(system->queue_units);
-	}
+	// while(queue_isempty(system->queue_available_units)) {
+	// 	node *it = front(system->queue_available_units);
+	// 	printf("%d ", ((unit *)(it->data))->ID);
+	// 	dequeue(system->queue_available_units);
+	// }
 
 	int commands = 0;
 	fscanf(in, "%d", &commands);
@@ -48,10 +49,21 @@ int main(void)
 			fprintf(stderr, "Allocation error for command");
 			return 0;
 		}
-
 		fgets(command, 100, in);
 		command[strlen(command) - 1] ='\0';
-		// command_processing(command, units);
+		command_processing(command, system);
 		free(command);
-	}	
+	}
+
+	// node *it = system->incidents->head->next;
+	// for (int i = 0; i < system->incidents->size; i++) {
+	// 	printf("ID %d\n", ((incident *)it->data)->ID);
+	// 	it = it->next;
+	// }
+
+	// while (queue_isempty(system->queue_high)) {
+	// 	node *aux = front(system->queue_high);
+	// 	printf("%s\n", ((incident *)aux->data)->description);
+	// 	dequeue(system->queue_high);
+	// }
 }
