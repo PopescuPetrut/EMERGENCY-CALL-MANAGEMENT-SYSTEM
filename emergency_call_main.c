@@ -55,9 +55,9 @@ int main(void)
 		free(command);
 	}
 
-	// node *it = system->incidents->head->next;
-	// for (int i = 0; i < system->incidents->size; i++) {
-	// 	printf("ID %d\n", ((incident *)it->data)->ID);
+	// node *it = system->interventions->head->next;
+	// for (int i = 0; i < system->interventions->size; i++) {
+	// 	printf("ID %d\n", ((intervention *)it->data)->incident_to_solve->ID);
 	// 	it = it->next;
 	// }
 
