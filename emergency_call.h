@@ -46,10 +46,11 @@ typedef struct call_system{
 	list *queue_high;
 	list *queue_medium;
 	list *queue_low;
-	list *queue_units;
+	list *queue_available_units;
+	list *queue_unavailable_units;
 } call_system;
 
-void command_processing(char *command, unit *units);
+void command_processing(char *command, call_system *system);
 list *create_list(DATA_TYPE a);
 void add_nth_node(list *lista, int pos, void *data);
 void remove_nth_node(list *lista, int pos);
