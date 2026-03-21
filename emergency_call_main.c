@@ -7,10 +7,13 @@ int main(void)
 		fprintf(stderr, "System memory allocation faield");
 		return -1;
 	}
-	system->queue_high = create_list(INCIDENT);
-	system->queue_medium = create_list(INCIDENT);
-	system->queue_low = create_list(INCIDENT);
-	system->queue_units = create_list(UNITS);
+	system->incidents = create_list(INCIDENT);
+	system->interventions = create_list(INTERVENTION);
+	system->units = create_list(UNITS);
+	system->queue_high = create_list(POINTERS);
+	system->queue_medium = create_list(POINTERS);
+	system->queue_low = create_list(POINTERS);
+	system->queue_units = create_list(POINTERS);
 	int nr_units;
 	FILE *in = fopen("tema1.in", "rt");
 
@@ -23,7 +26,16 @@ int main(void)
 		fscanf(in, "%c", &aux.type);
 		getc(in);
 		aux.availability = 1;
-		enqueue(system->queue_units, &aux);
+		add_nth_node(system->units, i, &aux);
+		node *new_node = get_nth_element(system->units, i);
+		void *location = new_node->data;
+		enqueue(system->queue_units, location);
+	}
+
+	while(queue_isempty(system->queue_units)) {
+		node *it = front(system->queue_units);
+		printf("%d ", ((unit *)(it->data))->ID);
+		dequeue(system->queue_units);
 	}
 
 	int commands = 0;
