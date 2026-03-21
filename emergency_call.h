@@ -10,7 +10,8 @@ typedef struct node{
 typedef enum DATA_TYPE{
 	INCIDENT,
 	INTERVENTION,
-	UNITS
+	UNITS,
+	POINTERS
 } DATA_TYPE;
 
 typedef struct list{
@@ -39,9 +40,9 @@ typedef struct intervention{
 } intervention;
 
 typedef struct call_system{
-	unit *units;
-	incident *incidents;
-	intervention *interventions;
+	list *units;
+	list *incidents;
+	list *interventions;
 	list *queue_high;
 	list *queue_medium;
 	list *queue_low;
