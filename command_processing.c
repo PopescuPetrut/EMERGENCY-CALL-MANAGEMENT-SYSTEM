@@ -35,7 +35,7 @@ void command_processing(char *command, call_system *system)
 			} else if (!queue_isempty(system->queue_high) && queue_isempty(system->queue_medium)) {
 				incident = front(system->queue_medium);
 			} else if (!queue_isempty(system->queue_high) && !queue_isempty(system->queue_medium) && queue_isempty(system->queue_low)) {
-					incident = front(system->queue_low);
+				incident = front(system->queue_low);
 			}
 		}
 	} else if (!strcmp(command, "UNDO_LAST_DISPATCH")) {
