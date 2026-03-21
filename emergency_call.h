@@ -35,8 +35,8 @@ typedef struct incident{
 } incident;
 
 typedef struct intervention{
-	unit *unit;
-	incident *incident;
+	unit *unit_to_deploy;
+	incident *incident_to_solve;
 } intervention;
 
 typedef struct call_system{
