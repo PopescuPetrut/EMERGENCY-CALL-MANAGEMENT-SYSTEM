@@ -26,18 +26,9 @@ void command_processing(char *command, call_system *system)
 
 	} else if (!strcmp(command, "CHECK_UNITS_AVAILABILITY")) {
 		printf("Number of available units: %d\n", system->queue_available_units->size);
+
 	} else if (!strcmp(command, "DISPATCH")) {
-		if (queue_isempty(system->queue_available_units)) {
-			node *incident;
-			intervention new_intervention;
-			if (queue_isempty(system->queue_high)) {
-				incident = front(system->queue_high);
-			} else if (!queue_isempty(system->queue_high) && queue_isempty(system->queue_medium)) {
-				incident = front(system->queue_medium);
-			} else if (!queue_isempty(system->queue_high) && !queue_isempty(system->queue_medium) && queue_isempty(system->queue_low)) {
-				incident = front(system->queue_low);
-			}
-		}
+
 	} else if (!strcmp(command, "UNDO_LAST_DISPATCH")) {
 
 	} else if (!strncmp(command, "SOLVED_INCIDENT", 15)) {
