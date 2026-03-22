@@ -33,12 +33,6 @@ int main(void)
 		enqueue(system->queue_available_units, location);
 	}
 
-	// while(queue_isempty(system->queue_available_units)) {
-	// 	node *it = front(system->queue_available_units);
-	// 	printf("%d ", ((unit *)(it->data))->ID);
-	// 	dequeue(system->queue_available_units);
-	// }
-
 	int commands = 0;
 	fscanf(in, "%d", &commands);
 	getc(in);
@@ -57,15 +51,4 @@ int main(void)
 
 	free_system(&system);
 	fclose(in);
-	// node *it = system->interventions->head->next;
-	// for (int i = 0; i < system->interventions->size; i++) {
-	// 	printf("ID %d\n", ((intervention *)it->data)->incident_to_solve->ID);
-	// 	it = it->next;
-	// }
-
-	// while (queue_isempty(system->queue_high)) {
-	// 	node *aux = front(system->queue_high);
-	// 	printf("%s\n", ((incident *)aux->data)->description);
-	// 	dequeue(system->queue_high);
-	// }
 }
