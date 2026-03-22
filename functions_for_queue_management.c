@@ -28,8 +28,8 @@ node *front(list *queue)
 int queue_isempty(list *queue)
 {
 	if (queue->size == 0) {
-		return 0;
-	} else {
 		return 1;
+	} else {
+		return 0;
 	}
 }
