@@ -28,7 +28,44 @@ void command_processing(char *command, call_system *system)
 		printf("Number of available units: %d\n", system->queue_available_units->size);
 
 	} else if (!strcmp(command, "DISPATCH")) {
+		node *curr_unit = NULL;
+		node *curr_incident = NULL;
+		if (!queue_isempty(system->queue_available_units)) {
+			curr_unit = front(system->queue_available_units);
+			((unit *)curr_unit->data)->availability = 0;
+			enqueue(system->queue_unavailable_units, (unit *)curr_unit->data);
+		}
+		if (curr_unit) {
+			if (!queue_isempty(system->queue_high)) {
+				curr_incident = front(system->queue_high);
+			} else if (queue_isempty(system->queue_high) && !queue_isempty(system->queue_medium)) {
+				curr_incident = front(system->queue_medium);
+			} else if (queue_isempty(system->queue_high) && queue_isempty(system->queue_medium) && !queue_isempty(system->queue_low)) {
+				curr_incident = front(system->queue_low);
+			}
 
+			if (curr_incident) {
+				strcpy(((incident *)curr_incident->data)->status, "intervened");
+				intervention new_intervention;
+				new_intervention.unit_to_deploy = curr_unit->data;
+				new_intervention.incident_to_solve = curr_incident->data;
+				add_nth_node(system->interventions, system->interventions->size, &new_intervention);
+				enqueue(system->queue_unavailable_units, curr_unit->data);
+				dequeue(system->queue_available_units);
+				if (!queue_isempty(system->queue_high)) {
+					dequeue(system->queue_high);
+				} else if (queue_isempty(system->queue_high) && !queue_isempty(system->queue_medium)) {
+					dequeue(system->queue_medium);
+				} else if (queue_isempty(system->queue_high) && queue_isempty(system->queue_medium) && !queue_isempty(system->queue_low)) {
+					dequeue(system->queue_low);
+				}	
+			} else {
+				printf("INVALID OPERATION! ERROR 404\n");
+			}
+		} else {
+			printf("INVALID OPERATION! ERROR 404\n");
+		}
+		
 	} else if (!strcmp(command, "UNDO_LAST_DISPATCH")) {
 
 	} else if (!strncmp(command, "SOLVED_INCIDENT", 15)) {
