@@ -69,6 +69,32 @@ void command_processing(char *command, call_system *system)
 	} else if (!strcmp(command, "UNDO_LAST_DISPATCH")) {
 
 	} else if (!strncmp(command, "SOLVED_INCIDENT", 15)) {
+		strtok(command, " ");
+		char *token = strtok(NULL, " ");
+		int incident_id = atoi(token);
+		node *it = system->interventions->head->next;
+		intervention *solved_intervention = (intervention *)it->data;
+		incident *curr_incindent = solved_intervention->incident_to_solve;
+		unit *curr_unit = solved_intervention->unit_to_deploy;
+		for (int i = 0; i < system->interventions->size; i++) {
+			if (curr_incindent->ID == incident_id) {
+				strcpy(curr_incindent->status, "solved");
+				curr_unit->availability = 1;
+				enqueue(system->queue_available_units, curr_unit);
+				dequeue(system->queue_unavailable_units);
+				return;
+			}
+			if (it->next != system->interventions->head) {
+				it = it->next;
+				solved_intervention = (intervention *)it->data;
+				curr_incindent = solved_intervention->incident_to_solve;
+				curr_unit = solved_intervention->unit_to_deploy;
+			} else {
+				break;
+			}
+		}
+
+		printf("INVALID OPERATION! ERROR 404\n");
 
 	} else if (!strncmp(command, "SHOW_UNIT", 9)) {
 		char *token = strtok(command, " ");
@@ -111,16 +137,12 @@ void command_processing(char *command, call_system *system)
 		}
 	} else if (!strcmp(command, "SHOW_INTERVENTIONS")) {
 		if (system->interventions->size) {
-			node *it = system->interventions->head->next;
-			unit *curr_unit = ((intervention *)it->data)->unit_to_deploy;
-			incident *curr_incident = ((intervention *)it->data)->incident_to_solve;
 			for (int i = 0; i < system->interventions->size; i++) {
+				node *it = get_nth_element(system->interventions, i);
+				intervention * curr_inter = (intervention *)it->data;
+				incident *curr_incident = (incident *)curr_inter->incident_to_solve;
+				unit *curr_unit = (unit *)curr_inter->unit_to_deploy;
 				printf("Incident %d was assigned to unit %d, and has the following status:\"%s\"\n", curr_incident->ID, curr_unit->ID, curr_incident->status);
-				it = it->next;
-				if (it != system->interventions->head) {
-					unit *curr_unit = ((intervention *)it->data)->unit_to_deploy;
-					incident *curr_incident = ((intervention *)it->data)->incident_to_solve;
-				}
 			}
 		} else {
 			printf("No intervention has been initiated\n");
