@@ -90,7 +90,10 @@ void remove_nth_node(list *lista, int pos)
 	remove->prev->next = remove->next;
 	remove->next->prev = remove->prev;
 	
-	if (lista->type != POINTERS) {
+	if (lista->type != POINTERS && lista->type != INCIDENT) {
+		free(remove->data);
+	} else if (lista->type == INCIDENT) {
+		free(((incident *)remove->data)->description);
 		free(remove->data);
 	}
 	free(remove);
@@ -112,4 +115,27 @@ node *get_nth_element(list *lista, int pos)
 	} 
 
 	return it;
+}
+
+void free_list(list **lista)
+{
+	while ((*lista)->size)
+	{
+		remove_nth_node(*lista, 0);
+	}		
+	free((*lista)->head);
+	free(*lista);
+}
+
+void free_system(call_system **system)
+{
+	free_list(&(*system)->incidents);
+	free_list(&(*system)->queue_available_units);
+	free_list(&(*system)->queue_high);
+	free_list(&(*system)->queue_low);
+	free_list(&(*system)->queue_medium);
+	free_list(&(*system)->queue_unavailable_units);
+	free_list(&(*system)->interventions);
+	free_list(&(*system)->units);
+	free(*system);
 }

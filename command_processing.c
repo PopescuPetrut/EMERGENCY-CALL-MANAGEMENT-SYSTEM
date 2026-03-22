@@ -23,7 +23,7 @@ void command_processing(char *command, call_system *system)
 		} else if (!strcmp(new_incident.priority, "low")) {
 			enqueue(system->queue_low, location);
 		}
-
+		free(new_incident.description);
 	} else if (!strcmp(command, "CHECK_UNITS_AVAILABILITY")) {
 		printf("Number of available units: %d\n", system->queue_available_units->size);
 

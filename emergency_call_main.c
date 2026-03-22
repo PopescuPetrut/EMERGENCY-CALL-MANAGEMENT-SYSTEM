@@ -45,7 +45,7 @@ int main(void)
 	for (int i = 0; i < commands; i++) {
 		char *command = (char *)malloc(sizeof(char) * 200);
 		if (!command) {
-			// free(system);
+			free_system(&system);
 			fprintf(stderr, "Allocation error for command");
 			return 0;
 		}
@@ -55,6 +55,8 @@ int main(void)
 		free(command);
 	}
 
+	free_system(&system);
+	fclose(in);
 	// node *it = system->interventions->head->next;
 	// for (int i = 0; i < system->interventions->size; i++) {
 	// 	printf("ID %d\n", ((intervention *)it->data)->incident_to_solve->ID);

@@ -59,3 +59,5 @@ void enqueue(list *queue, void *data);
 void dequeue(list *queue);
 node *front(list *queue);
 int queue_isempty(list *queue);
+void free_list(list **lista);
+void free_system(call_system **system);
