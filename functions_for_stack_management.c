@@ -11,7 +11,7 @@ void pop(list *lista)
 		fprintf(stderr, "Poping an empty stack");
 		return;
 	}
-	remove_nth_node(lista, lista->size);
+	remove_nth_node(lista, lista->size - 1);
 }
 
 node *top(list *lista)
@@ -21,7 +21,7 @@ node *top(list *lista)
 		return NULL;
 	}
 
-	return get_nth_element(lista, lista->size);
+	return get_nth_element(lista, lista->size - 1);
 }
 
 int stack_isempty(list *lista)

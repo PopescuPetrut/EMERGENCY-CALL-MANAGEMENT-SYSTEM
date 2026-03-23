@@ -73,6 +73,7 @@ void command_processing(char *command, call_system *system)
 			printf("INVALID OPERATION! ERROR 404\n");
 			return;
 		} else {
+			int exist_problem = 0;
 			while (!stack_isempty(system->stack_interventions)) {
 				node *curr_intervention_ptr = top(system->stack_interventions);
 				intervention * curr_intervention = (intervention *)curr_intervention_ptr->data;
@@ -80,7 +81,7 @@ void command_processing(char *command, call_system *system)
 					curr_intervention->unit_to_deploy->availability = 1;
 					enqueue(system->queue_available_units, curr_intervention->unit_to_deploy);
 					strcpy(curr_intervention->incident_to_solve->status, "queued");
-					if (!strcmp(curr_intervention->incident_to_solve->priority, "heigh")) {
+					if (!strcmp(curr_intervention->incident_to_solve->priority, "high")) {
 						priority_enqueue(system->queue_high, curr_intervention->incident_to_solve);
 					} else if (!strcmp(curr_intervention->incident_to_solve->priority, "medium")) {
 						priority_enqueue(system->queue_medium, curr_intervention->incident_to_solve);
@@ -91,15 +92,21 @@ void command_processing(char *command, call_system *system)
 					for (int i = 0; i < system->interventions->size; i++) {
 						node *it = get_nth_element(system->interventions, i);
 						if (((intervention *)it->data)->incident_to_solve->ID == curr_intervention->incident_to_solve->ID) {
+							find_pos = i;
 							break;
 						}
 					}
+					exist_problem = 1;
 					remove_nth_node(system->interventions, find_pos);
 					pop(system->stack_interventions);
 					break;
 				}
 				pop(system->stack_interventions);
 			}
+
+			if (!exist_problem) {
+			printf("INVALID OPERATION! ERROR 404\n");
+			} 
 		}
 	
 	} else if (!strncmp(command, "SOLVED_INCIDENT", 15)) {
