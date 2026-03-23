@@ -134,8 +134,8 @@ void free_system(call_system **system)
 	free_list(&(*system)->queue_high);
 	free_list(&(*system)->queue_low);
 	free_list(&(*system)->queue_medium);
-	free_list(&(*system)->queue_unavailable_units);
 	free_list(&(*system)->interventions);
 	free_list(&(*system)->units);
+	free_list(&(*system)->stack_interventions);
 	free(*system);
 }
