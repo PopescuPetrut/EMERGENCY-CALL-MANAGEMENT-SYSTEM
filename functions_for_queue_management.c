@@ -5,6 +5,11 @@ void enqueue(list *queue, void *data)
 	add_nth_node(queue, queue->size, data);
 }
 
+void priority_enqueue(list *queue, void *data)
+{
+	add_nth_node(queue, 0, data);
+}
+
 void dequeue(list *queue)
 {
 	if (queue->size) {
