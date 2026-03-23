@@ -18,7 +18,7 @@ node *top(list *lista)
 {
 	if (lista->size == 0) {
 		fprintf(stderr, "Empty stack");
-		return;
+		return NULL;
 	}
 
 	return get_nth_element(lista, lista->size);
