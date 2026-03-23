@@ -47,7 +47,7 @@ typedef struct call_system{
 	list *queue_medium;
 	list *queue_low;
 	list *queue_available_units;
-	list *queue_unavailable_units;
+	list *stack_interventions;
 } call_system;
 
 void command_processing(char *command, call_system *system);
@@ -61,3 +61,8 @@ node *front(list *queue);
 int queue_isempty(list *queue);
 void free_list(list **lista);
 void free_system(call_system **system);
+void push(list *lista, void *data);
+void pop(list *lista);
+node *top(list *lista);
+int stack_isempty(list *lista);
+void priority_enqueue(list *queue, void *data);
