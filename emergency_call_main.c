@@ -14,7 +14,7 @@ int main(void)
 	system->queue_medium = create_list(POINTERS);
 	system->queue_low = create_list(POINTERS);
 	system->queue_available_units = create_list(POINTERS);
-	system->queue_unavailable_units = create_list(POINTERS);
+	system->stack_interventions = create_list(POINTERS);
 	int nr_units;
 	FILE *in = fopen("tema1.in", "rt");
 
