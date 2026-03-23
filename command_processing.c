@@ -33,7 +33,6 @@ void command_processing(char *command, call_system *system)
 		if (!queue_isempty(system->queue_available_units)) {
 			curr_unit = front(system->queue_available_units);
 			((unit *)curr_unit->data)->availability = 0;
-			enqueue(system->queue_unavailable_units, (unit *)curr_unit->data);
 		}
 		if (curr_unit) {
 			if (!queue_isempty(system->queue_high)) {
@@ -50,7 +49,10 @@ void command_processing(char *command, call_system *system)
 				new_intervention.unit_to_deploy = curr_unit->data;
 				new_intervention.incident_to_solve = curr_incident->data;
 				add_nth_node(system->interventions, system->interventions->size, &new_intervention);
-				enqueue(system->queue_unavailable_units, curr_unit->data);
+				node *aux = get_nth_element(system->interventions, system->interventions->size);
+				intervention *data = (intervention *)aux->data;
+				void *location = data;
+				push(system->stack_interventions, location);
 				dequeue(system->queue_available_units);
 				if (!queue_isempty(system->queue_high)) {
 					dequeue(system->queue_high);
@@ -67,7 +69,39 @@ void command_processing(char *command, call_system *system)
 		}
 
 	} else if (!strcmp(command, "UNDO_LAST_DISPATCH")) {
-
+		if (stack_isempty(system->stack_interventions)) {
+			printf("INVALID OPERATION! ERROR 404\n");
+			return;
+		} else {
+			while (!stack_isempty(system->stack_interventions)) {
+				node *curr_intervention_ptr = top(system->stack_interventions);
+				intervention * curr_intervention = (intervention *)curr_intervention_ptr->data;
+				if (!strcmp(curr_intervention->incident_to_solve->status, "intervened")) {
+					curr_intervention->unit_to_deploy->availability = 1;
+					enqueue(system->queue_available_units, curr_intervention->unit_to_deploy);
+					strcpy(curr_intervention->incident_to_solve->status, "queued");
+					if (!strcmp(curr_intervention->incident_to_solve->priority, "heigh")) {
+						priority_enqueue(system->queue_high, curr_intervention->incident_to_solve);
+					} else if (!strcmp(curr_intervention->incident_to_solve->priority, "medium")) {
+						priority_enqueue(system->queue_medium, curr_intervention->incident_to_solve);
+					} else if (!strcmp(curr_intervention->incident_to_solve->priority, "low")) {
+						priority_enqueue(system->queue_low, curr_intervention->incident_to_solve);
+					}
+					int find_pos = 0;
+					for (int i = 0; i < system->interventions->size; i++) {
+						node *it = get_nth_element(system->interventions, i);
+						if (((intervention *)it->data)->incident_to_solve->ID == curr_intervention->incident_to_solve->ID) {
+							break;
+						}
+					}
+					remove_nth_node(system->interventions, find_pos);
+					pop(system->stack_interventions);
+					break;
+				}
+				pop(system->stack_interventions);
+			}
+		}
+	
 	} else if (!strncmp(command, "SOLVED_INCIDENT", 15)) {
 		strtok(command, " ");
 		char *token = strtok(NULL, " ");
@@ -81,7 +115,6 @@ void command_processing(char *command, call_system *system)
 				strcpy(curr_incindent->status, "solved");
 				curr_unit->availability = 1;
 				enqueue(system->queue_available_units, curr_unit);
-				dequeue(system->queue_unavailable_units);
 				return;
 			}
 			if (it->next != system->interventions->head) {
