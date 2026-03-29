@@ -17,6 +17,7 @@ int main(void)
 	system->stack_interventions = create_list(POINTERS);
 	int nr_units;
 	FILE *in = fopen("tema1.in", "rt");
+	FILE *out = fopen("tema2.out", "wt");
 
 	fscanf(in, "%d", &nr_units);
 	getc(in);
@@ -45,10 +46,11 @@ int main(void)
 		}
 		fgets(command, 100, in);
 		command[strlen(command) - 1] ='\0';
-		command_processing(command, system);
+		command_processing(command, system, out);
 		free(command);
 	}
 
 	free_system(&system);
 	fclose(in);
+	fclose(out);
 }
