@@ -25,7 +25,7 @@ void ADD_INCIDENT(char *command, call_system *system)
 	free(new_incident.description);
 }
 
-void DISPATCH(char *command, call_system *system, FILE *file)
+void DISPATCH(call_system *system, FILE *file)
 {
 	node *curr_unit = NULL;
 	node *curr_incident = NULL;
@@ -68,7 +68,7 @@ void DISPATCH(char *command, call_system *system, FILE *file)
 	}
 }
 
-void UNDO_LAST_DISPATCH(char *command, call_system *system, FILE *file)
+void UNDO_LAST_DISPATCH(call_system *system, FILE *file)
 {
 	if (stack_isempty(system->stack_interventions)) {
 		fprintf(file, "INVALID OPERATION! ERROR 404\n");
@@ -184,7 +184,7 @@ void SHOW_INCIDENT(char *command, call_system *system, FILE *file)
 	}
 }
 
-void SHOW_INTERVENTIONS(char *command, call_system *system, FILE *file)
+void SHOW_INTERVENTIONS(call_system *system, FILE *file)
 {
 	if (system->interventions->size) {
 		for (int i = 0; i < system->interventions->size; i++) {
@@ -208,10 +208,10 @@ void command_processing(char *command, call_system *system, FILE *output)
 		fprintf(output, "Number of available units: %d\n", system->queue_available_units->size);
 
 	} else if (!strcmp(command, "DISPATCH")) {
-		DISPATCH(command, system, output);
+		DISPATCH(system, output);
 
 	} else if (!strcmp(command, "UNDO_LAST_DISPATCH")) {
-		UNDO_LAST_DISPATCH(command, system, output);
+		UNDO_LAST_DISPATCH(system, output);
 
 	} else if (!strncmp(command, "SOLVED_INCIDENT", 15)) {
 		SOLVED_INCIDENT(command, system, output);
@@ -223,6 +223,6 @@ void command_processing(char *command, call_system *system, FILE *output)
 		SHOW_INCIDENT(command, system, output);
 
 	} else if (!strcmp(command, "SHOW_INTERVENTIONS")) {
-		SHOW_INTERVENTIONS(command, system, output);
+		SHOW_INTERVENTIONS(system, output);
 	}
 }

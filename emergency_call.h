@@ -52,12 +52,12 @@ typedef struct call_system{
 
 void command_processing(char *command, call_system *system, FILE *file);
 void ADD_INCIDENT(char *command, call_system *system);
-void DISPATCH(char *command, call_system *system, FILE *file);
-void UNDO_LAST_DISPATCH(char *command, call_system *system, FILE *file);
+void DISPATCH(call_system *system, FILE *file);
+void UNDO_LAST_DISPATCH(call_system *system, FILE *file);
 void SOLVED_INCIDENT(char *command, call_system *system, FILE *file);
 void SHOW_UNIT(char *command, call_system *system, FILE *file);
 void SHOW_INCIDENT(char *command, call_system *system, FILE *file);
-void SHOW_INTERVENTIONS(char *command, call_system *system, FILE *file);
+void SHOW_INTERVENTIONS(call_system *system, FILE *file);
 list *create_list(DATA_TYPE a);
 void add_nth_node(list *lista, int pos, void *data);
 void remove_nth_node(list *lista, int pos);
