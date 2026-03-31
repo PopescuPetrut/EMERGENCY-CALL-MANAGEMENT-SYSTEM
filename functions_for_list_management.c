@@ -54,12 +54,12 @@ void add_nth_node(list *lista, int pos, void *data)
 		new_node->data = data;
 	}
 
-	node *it = lista->head->next;
+	node *it = lista->head;
 	if (pos >= lista->size) {
 		pos = lista->size;
 	}
 
-	for (int i = 0; i < pos - 1; i++) {
+	for (int i = 0; i < pos; i++) {
 		it = it->next;
 	}
 
