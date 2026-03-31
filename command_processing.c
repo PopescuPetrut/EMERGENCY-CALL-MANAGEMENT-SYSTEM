@@ -193,7 +193,7 @@ void SHOW_INTERVENTIONS(call_system *system, FILE *file)
 			intervention * curr_inter = (intervention *)it->data;
 			incident *curr_incident = (incident *)curr_inter->incident_to_solve;
 			unit *curr_unit = (unit *)curr_inter->unit_to_deploy;
-			fprintf(file, "Incident %d was assigned to unit %d, and has the following status:\"%s\"\n", curr_incident->ID, curr_unit->ID, curr_incident->status);
+			fprintf(file, "Incident %d was assigned to unit %d, and has the following status: \"%s\"\n", curr_incident->ID, curr_unit->ID, curr_incident->status);
 		}
 	} else {
 		fprintf(file, "No intervention has been initiated\n");
