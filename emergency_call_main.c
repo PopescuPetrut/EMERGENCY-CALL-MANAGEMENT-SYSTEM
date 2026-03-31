@@ -53,4 +53,5 @@ int main(void)
 	free_system(&system);
 	fclose(in);
 	fclose(out);
+	return 0;
 }
