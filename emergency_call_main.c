@@ -45,7 +45,9 @@ int main(void)
 			return 0;
 		}
 		fgets(command, 100, in);
-		command[strlen(command) - 1] ='\0';
+		if (command[strlen(command) - 1] == '\n') {
+			command[strlen(command) - 1] ='\0';
+		}
 		command_processing(command, system, out);
 		free(command);
 	}
