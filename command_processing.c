@@ -116,27 +116,28 @@ void SOLVED_INCIDENT(char *command, call_system *system, FILE *file)
 	strtok(command, " ");
 	char *token = strtok(NULL, " ");
 	int incident_id = atoi(token);
-	node *it = system->interventions->head->next;
-	intervention *solved_intervention = (intervention *)it->data;
-	incident *curr_incindent = solved_intervention->incident_to_solve;
-	unit *curr_unit = solved_intervention->unit_to_deploy;
-	for (int i = 0; i < system->interventions->size; i++) {
-		if (curr_incindent->ID == incident_id) {
-			strcpy(curr_incindent->status, "solved");
-			curr_unit->availability = 1;
-			enqueue(system->queue_available_units, curr_unit);
-			return;
-		}
-		if (it->next != system->interventions->head) {
-			it = it->next;
-			solved_intervention = (intervention *)it->data;
-			curr_incindent = solved_intervention->incident_to_solve;
-			curr_unit = solved_intervention->unit_to_deploy;
-		} else {
-			break;
+	if (system->interventions->size) {
+		node *it = system->interventions->head->next;
+		intervention *solved_intervention = (intervention *)it->data;
+		incident *curr_incindent = solved_intervention->incident_to_solve;
+		unit *curr_unit = solved_intervention->unit_to_deploy;
+		for (int i = 0; i < system->interventions->size; i++) {
+			if (curr_incindent->ID == incident_id && !strcmp(curr_incindent->status, "intervened")) {
+				strcpy(curr_incindent->status, "solved");
+				curr_unit->availability = 1;
+				enqueue(system->queue_available_units, curr_unit);
+				return;
+			}
+			if (it->next != system->interventions->head) {
+				it = it->next;
+				solved_intervention = (intervention *)it->data;
+				curr_incindent = solved_intervention->incident_to_solve;
+				curr_unit = solved_intervention->unit_to_deploy;
+			} else {
+				break;
+			}
 		}
 	}
-
 	fprintf(file, "INVALID OPERATION! ERROR 404\n");
 }
 
