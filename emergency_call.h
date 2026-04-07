@@ -1,3 +1,5 @@
+// POPESCU PETRUT - ALIN 312CA
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

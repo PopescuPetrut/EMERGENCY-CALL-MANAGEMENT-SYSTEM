@@ -1,3 +1,5 @@
+// POPESCU PETRUT - ALIN 312CA
+
 #include "emergency_call.h"
 
 int main(void)
@@ -15,6 +17,7 @@ int main(void)
 	system->queue_low = create_list(POINTERS);
 	system->queue_available_units = create_list(POINTERS);
 	system->stack_interventions = create_list(POINTERS);
+
 	int nr_units;
 	FILE *in = fopen("tema1.in", "rt");
 	FILE *out = fopen("tema1.out", "wt");
@@ -46,7 +49,7 @@ int main(void)
 		}
 		fgets(command, 100, in);
 		if (command[strlen(command) - 1] == '\n') {
-			command[strlen(command) - 1] ='\0';
+			command[strlen(command) - 1] = '\0';
 		}
 		command_processing(command, system, out);
 		free(command);
@@ -55,5 +58,6 @@ int main(void)
 	free_system(&system);
 	fclose(in);
 	fclose(out);
+
 	return 0;
 }

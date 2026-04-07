@@ -1,9 +1,12 @@
+// POPESCU PETRUT - ALIN 312CA
+
 #include "emergency_call.h"
 
+// This function create a double linked list with santinel and initialise it
 list *create_list(DATA_TYPE a)
 {
 	list *lista = malloc(sizeof(list));
-	if(!lista) {
+	if (!lista) {
 		fprintf(stderr, "Allocation error for list");
 		return NULL;
 	}
@@ -24,6 +27,7 @@ list *create_list(DATA_TYPE a)
 	return lista;
 }
 
+// add a node at n position in the list
 void add_nth_node(list *lista, int pos, void *data)
 {
 	if (!lista) {
@@ -31,7 +35,7 @@ void add_nth_node(list *lista, int pos, void *data)
 	}
 
 	node *new_node = malloc(sizeof(node));
-	if(!new_node) {
+	if (!new_node) {
 		fprintf(stderr, "Allocation error for node");
 		return;
 	}
@@ -71,6 +75,7 @@ void add_nth_node(list *lista, int pos, void *data)
 	lista->size++;
 }
 
+// removes the node placed on the n position in the list
 void remove_nth_node(list *lista, int pos)
 {
 	if (!lista || !lista->head->next) {
@@ -100,6 +105,7 @@ void remove_nth_node(list *lista, int pos)
 	lista->size--;
 }
 
+// returns a pointer to a node placed on the nth position in the list
 node *get_nth_element(list *lista, int pos)
 {
 	if (!lista || !lista->head->next) {
@@ -117,6 +123,7 @@ node *get_nth_element(list *lista, int pos)
 	return it;
 }
 
+// free the memory for a list
 void free_list(list **lista)
 {
 	while ((*lista)->size)
@@ -127,6 +134,7 @@ void free_list(list **lista)
 	free(*lista);
 }
 
+// free a call system
 void free_system(call_system **system)
 {
 	free_list(&(*system)->incidents);

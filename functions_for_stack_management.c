@@ -1,10 +1,14 @@
+// POPESCU PETRUT - ALIN 312CA
+
 #include "emergency_call.h"
 
+// add an element in the stack
 void push(list *lista, void *data)
 {
 	add_nth_node(lista, lista->size, data);
 }
 
+// remove an element from the stack
 void pop(list *lista)
 {
 	if (lista->size == 0) {
@@ -14,6 +18,7 @@ void pop(list *lista)
 	remove_nth_node(lista, lista->size - 1);
 }
 
+// returns the elemnt placed on the top of the stack
 node *top(list *lista)
 {
 	if (lista->size == 0) {
@@ -24,6 +29,7 @@ node *top(list *lista)
 	return get_nth_element(lista, lista->size - 1);
 }
 
+// verify if the stack is empty
 int stack_isempty(list *lista)
 {
 	if (lista->size == 0) {
