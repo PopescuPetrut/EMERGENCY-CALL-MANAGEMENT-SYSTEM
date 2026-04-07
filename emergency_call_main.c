@@ -6,7 +6,7 @@ int main(void)
 {
 	call_system *system = malloc(sizeof(call_system));
 	if (!system) {
-		fprintf(stderr, "System memory allocation faield");
+		fprintf(stderr, "System memory allocation failed");
 		return -1;
 	}
 	system->incidents = create_list(INCIDENT);
@@ -20,7 +20,16 @@ int main(void)
 
 	int nr_units;
 	FILE *in = fopen("tema1.in", "rt");
+	if (!in) {
+		fprintf(stderr, "Failed to open file tema1.in");
+		return -1;
+	}
 	FILE *out = fopen("tema1.out", "wt");
+	if (!out) {
+		fprintf(stderr, "Failed to open file tema1.out");
+		return -1;
+	}
+
 
 	fscanf(in, "%d", &nr_units);
 	getc(in);

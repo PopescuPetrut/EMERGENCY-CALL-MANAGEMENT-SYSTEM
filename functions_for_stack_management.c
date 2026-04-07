@@ -12,7 +12,7 @@ void push(list *lista, void *data)
 void pop(list *lista)
 {
 	if (lista->size == 0) {
-		fprintf(stderr, "Poping an empty stack");
+		fprintf(stderr, "Popping an empty stack");
 		return;
 	}
 	remove_nth_node(lista, lista->size - 1);

@@ -2,7 +2,7 @@
 
 #include "emergency_call.h"
 
-void ADD_INCIDENT(char *command, call_system *system)
+void add_incident(char *command, call_system *system)
 {
 	incident new_incident;
 
@@ -31,7 +31,7 @@ void ADD_INCIDENT(char *command, call_system *system)
 	free(new_incident.description);
 }
 
-void DISPATCH(call_system *system, FILE *file)
+void dispatch(call_system *system, FILE *file)
 {
 	node *curr_unit = NULL;
 	node *curr_incident = NULL;
@@ -80,7 +80,7 @@ void DISPATCH(call_system *system, FILE *file)
 	}
 }
 
-void UNDO_LAST_DISPATCH(call_system *system, FILE *file)
+void undo_last_dispatch(call_system *system, FILE *file)
 {
 	if (stack_isempty(system->stack_interventions)) {
 		fprintf(file, "INVALID OPERATION! ERROR 404\n");
@@ -106,12 +106,16 @@ void UNDO_LAST_DISPATCH(call_system *system, FILE *file)
 				}
 
 				int find_pos = 0;
-				for (int i = 0; i < system->interventions->size; i++) {
-					node *it = get_nth_element(system->interventions, i);
+				int cnt = 0;
+				node *it = system->interventions->head->next;
+				while (it != system->interventions->head) {
 					if (((intervention *)it->data)->incident_to_solve->ID == curr_intervention->incident_to_solve->ID) {
-						find_pos = i;
+						find_pos = cnt;
 						break;
 					}
+
+					it = it->next;
+					cnt++;
 				}
 
 				exist_problem = 1;
@@ -128,7 +132,7 @@ void UNDO_LAST_DISPATCH(call_system *system, FILE *file)
 	}
 }
 
-void SOLVED_INCIDENT(char *command, call_system *system, FILE *file)
+void solved_incident(char *command, call_system *system, FILE *file)
 {
 	strtok(command, " ");
 	char *token = strtok(NULL, " ");
@@ -160,7 +164,7 @@ void SOLVED_INCIDENT(char *command, call_system *system, FILE *file)
 	fprintf(file, "INVALID OPERATION! ERROR 404\n");
 }
 
-void SHOW_UNIT(char *command, call_system *system, FILE *file)
+void show_unit(char *command, call_system *system, FILE *file)
 {
 	char *token = strtok(command, " ");
 	token = strtok(NULL, " ");
@@ -186,15 +190,15 @@ void SHOW_UNIT(char *command, call_system *system, FILE *file)
 	}
 }
 
-void SHOW_INCIDENT(char *command, call_system *system, FILE *file)
+void show_incident(char *command, call_system *system, FILE *file)
 {
 	char *token = strtok(command, " ");
 	token = strtok(NULL, " ");
-	int incident_to_displey = atoi(token);
+	int incident_to_display = atoi(token);
 	node *it = system->incidents->head->next;
 
 	while (it != system->incidents->head) {
-		if (((incident *)it->data)->ID == incident_to_displey) {
+		if (((incident *)it->data)->ID == incident_to_display) {
 			incident current_incident = *(incident *)it->data;
 
 			fprintf(file, "Incident %d has %s priority, the following description: %s and is %s\n", current_incident.ID, current_incident.priority, current_incident.description, current_incident.status);
@@ -208,16 +212,17 @@ void SHOW_INCIDENT(char *command, call_system *system, FILE *file)
 	}
 }
 
-void SHOW_INTERVENTIONS(call_system *system, FILE *file)
+void show_interventions(call_system *system, FILE *file)
 {
 	if (system->interventions->size) {
-		for (int i = 0; i < system->interventions->size; i++) {
-			node *it = get_nth_element(system->interventions, i);
+		node *it = system->interventions->head->next;
+		while(it != system->interventions->head) {
 			intervention *curr_inter = (intervention *)it->data;
 			incident *curr_incident = (incident *)curr_inter->incident_to_solve;
 			unit *curr_unit = (unit *)curr_inter->unit_to_deploy;
 
 			fprintf(file, "Incident %d was assigned to unit %d, and has the following status: \"%s\"\n", curr_incident->ID, curr_unit->ID, curr_incident->status);
+			it = it->next;
 		}
 	} else {
 		fprintf(file, "No intervention has been initiated\n");
@@ -228,27 +233,27 @@ void SHOW_INTERVENTIONS(call_system *system, FILE *file)
 void command_processing(char *command, call_system *system, FILE *output)
 {
 	if (!strncmp(command, "ADD_INCIDENT", 12)) {
-		ADD_INCIDENT(command, system);
+		add_incident(command, system);
 
 	} else if (!strcmp(command, "CHECK_UNITS_AVAILABILITY")) {
 		fprintf(output, "Number of available units: %d\n", system->queue_available_units->size);
 
 	} else if (!strcmp(command, "DISPATCH")) {
-		DISPATCH(system, output);
+		dispatch(system, output);
 
 	} else if (!strcmp(command, "UNDO_LAST_DISPATCH")) {
-		UNDO_LAST_DISPATCH(system, output);
+		undo_last_dispatch(system, output);
 
 	} else if (!strncmp(command, "SOLVED_INCIDENT", 15)) {
-		SOLVED_INCIDENT(command, system, output);
+		solved_incident(command, system, output);
 
 	} else if (!strncmp(command, "SHOW_UNIT", 9)) {
-		SHOW_UNIT(command, system, output);
+		show_unit(command, system, output);
 
 	} else if (!strncmp(command, "SHOW_INCIDENT", 13)) {
-		SHOW_INCIDENT(command, system, output);
+		show_incident(command, system, output);
 
 	} else if (!strcmp(command, "SHOW_INTERVENTIONS")) {
-		SHOW_INTERVENTIONS(system, output);
+		show_interventions(system, output);
 	}
 }

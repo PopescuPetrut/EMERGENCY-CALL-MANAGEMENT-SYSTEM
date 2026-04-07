@@ -2,7 +2,7 @@
 
 #include "emergency_call.h"
 
-// This function create a double linked list with santinel and initialise it
+// This function creates a double linked list with sentinel and initializes	 it
 list *create_list(DATA_TYPE a)
 {
 	list *lista = malloc(sizeof(list));
@@ -105,7 +105,7 @@ void remove_nth_node(list *lista, int pos)
 	lista->size--;
 }
 
-// returns a pointer to a node placed on the nth position in the list
+// returns a pointer to a node placed at the nth position in the list
 node *get_nth_element(list *lista, int pos)
 {
 	if (!lista || !lista->head->next) {
