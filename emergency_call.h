@@ -53,13 +53,13 @@ typedef struct call_system{
 } call_system;
 
 void command_processing(char *command, call_system *system, FILE *file);
-void ADD_INCIDENT(char *command, call_system *system);
-void DISPATCH(call_system *system, FILE *file);
-void UNDO_LAST_DISPATCH(call_system *system, FILE *file);
-void SOLVED_INCIDENT(char *command, call_system *system, FILE *file);
-void SHOW_UNIT(char *command, call_system *system, FILE *file);
+void add_incident(char *command, call_system *system);
+void dispatch(call_system *system, FILE *file);
+void undo_last_dispatch(call_system *system, FILE *file);
+void solved_incident(char *command, call_system *system, FILE *file);
+void show_unit(char *command, call_system *system, FILE *file);
 void SHOW_INCIDENT(char *command, call_system *system, FILE *file);
-void SHOW_INTERVENTIONS(call_system *system, FILE *file);
+void show_interventions(call_system *system, FILE *file);
 list *create_list(DATA_TYPE a);
 void add_nth_node(list *lista, int pos, void *data);
 void remove_nth_node(list *lista, int pos);
