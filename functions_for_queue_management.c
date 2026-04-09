@@ -36,7 +36,7 @@ node *front(list *queue)
 	}
 }
 
-// verify if the queue is empty
+// verifies if the queue is empty
 int queue_isempty(list *queue)
 {
 	if (queue->size == 0) {
