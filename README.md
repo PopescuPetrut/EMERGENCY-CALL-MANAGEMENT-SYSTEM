@@ -63,4 +63,4 @@ Retrieves and prints all detailed information regarding a specific unit or incid
 
 Prints a comprehensive history of all interventions, including those currently in progress and those already solved.
 
-> **[!WARNING]** > **IF ANY OF THE ABOVE FAIL IT RETURNS THE MESSAGE: "INVALID OPERATION! ERROR 404"**
+> **[!WARNING]** > **IF ANY OF THE ABOVE FAILS IT RETURNS THE MESSAGE: "INVALID OPERATION! ERROR 404"**
