@@ -1,4 +1,4 @@
-// POPESCU PETRUT - ALIN 312CA
+// POPESCU PETRUT - ALIN
 
 #include "emergency_call.h"
 

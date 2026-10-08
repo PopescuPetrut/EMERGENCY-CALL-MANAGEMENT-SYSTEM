@@ -1,4 +1,4 @@
-// POPESCU PETRUT - ALIN 312CA
+// POPESCU PETRUT - ALIN
 
 #include <stdio.h>
 #include <string.h>

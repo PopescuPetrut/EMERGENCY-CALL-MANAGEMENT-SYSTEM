@@ -2,7 +2,7 @@
 
 **Author**
 
-* Popescu Petruţ - Alin, 312CA
+* Popescu Petruţ - Alin
 
 ## INTRODUCTION
 
